@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/about"
+
+            android:title="About Us" />
+        <item
+            android:id="@+id/prog"
+
+            android:title="Our Program" />
+        <item
+            android:id="@+id/stories"
+
+            android:title="Our Stories" />
+        <item
+            android:id="@+id/inv"
+
+            android:title="Get Involved" />
+
+
+
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/contact"
+
+                android:title="Contact Us" />
+            <item
+                android:id="@+id/rate"
+                
+                android:title="Rate Us" />
+        </menu>
+    </item>
+
+</menu>
