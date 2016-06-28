@@ -1,74 +1,73 @@
 package com.example.arora.cehroindia;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.webkit.WebSettings;
+import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import static com.example.arora.cehroindia.R.id.progressBar;
+/*
+ * Demo of creating an application to open any URL inside the application and clicking on any link from that URl
+should not open Native browser but  that URL should open in the same screen.
 
-public class ContactActivity extends AppCompatActivity  {
-    private ProgressBar mProgressBar;
-    public WebView webview;
-    private static final String TAG = "Main";
+- Load WebView with progress bar
+ */
+public class ContactActivity extends Activity {
+    /** Called when the activity is first created. */
+
+    WebView web;
+    ProgressBar progressBar;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
-       /* WebView webview = new WebView(this);
-        setContentView(webview);
-        webview.loadUrl("http://cehroindia.org/contact-us/");
+        web = (WebView) findViewById(R.id.webview01);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mProgressBar.setVisibility(View.VISIBLE);
-*/
+        web.setWebViewClient(new myWebClient());
+        web.getSettings().setJavaScriptEnabled(true);
+        web.loadUrl("http://cehroindia.org/contact-us/");
+    }
 
-        this.webview = (WebView) findViewById(R.id.webview);
+    public class myWebClient extends WebViewClient
+    {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO Auto-generated method stub
+            super.onPageStarted(view, url, favicon);
+        }
 
-        WebSettings settings = webview.getSettings();
-        settings.setJavaScriptEnabled(true);
-        webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            progressBar.setVisibility(View.VISIBLE);
+            view.loadUrl(url);
+            return true;
 
-        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        Context context = getApplicationContext();
-        progressBar = ProgressDialog.show(Main.this, "Showing ProgressDialog", "Loading...");
+        }
 
-        webview.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-              Log.i(TAG, "Processing webview url click...");
-                view.loadUrl(url);
-                return true;
-            }
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
 
-            public void onPageFinished(WebView view, String url) {
-               Log.i(TAG, "Finished loading URL: " + url);
-                if (progressBar.isShowing()) {
-                    progressBar.dismiss();
-                }
-            }
+            progressBar.setVisibility(View.GONE);
+        }
+    }
 
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Log.e(TAG, "Error: " + description);
-                Toast.makeText(ContactActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage(description);
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
-                })
-                alertDialog.show();
-            }
-        });
-        webview.loadUrl("http://cehroindia.org/contact-us/");
+    // To handle "Back" key press event for WebView to go back to previous screen.
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && web.canGoBack()) {
+            web.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
