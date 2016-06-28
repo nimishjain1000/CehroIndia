@@ -22,19 +22,24 @@
         </activity>
         <activity
             android:name=".AboutUsActivity"
-            android:label="About us " />
+            android:label="About us "
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ContactActivity"
-            android:label="Contact Us" />
+            android:label="Contact Us"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".GetInvActivity"
-            android:label="Get Involved" />
+            android:label="Get Involved"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".OurProgramActivity"
-            android:label="Our Programs"/>
+            android:label="Our Programs"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".OurStoryActivity"
-            android:label="Our Stories" ></activity>
+            android:label="Our Stories"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
